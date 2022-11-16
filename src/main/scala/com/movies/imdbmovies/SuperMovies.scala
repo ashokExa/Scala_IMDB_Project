@@ -4,7 +4,6 @@ import java.io.{File, FileNotFoundException, PrintWriter}
 import java.nio.file.{Files, Paths}
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
-import scala.reflect.io.Directory
 
 trait Movies {
   def readMovies(): ListBuffer[String]
@@ -12,6 +11,7 @@ trait Movies {
 
 class SuperMovies(var resourceName: String, var fileHeader: String) extends Movies {
   val outputDirectory = "output/"
+
   def readMovies(): ListBuffer[String] = {
     val sourceFile = Source.fromResource(resourceName)
     val inputFileData = ListBuffer[String]()
@@ -53,8 +53,8 @@ class SuperMovies(var resourceName: String, var fileHeader: String) extends Movi
 
   }
 
-  def createOutputDirectory() : Unit = {
-    if( !Files.exists(Paths.get(outputDirectory)) )
+  def createOutputDirectory(): Unit = {
+    if (!Files.exists(Paths.get(outputDirectory)))
       Files.createDirectory(Paths.get(outputDirectory))
   }
 }
