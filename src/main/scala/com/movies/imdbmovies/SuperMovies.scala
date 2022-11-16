@@ -1,14 +1,17 @@
 package com.movies.imdbmovies
 
 import java.io.{File, FileNotFoundException, PrintWriter}
+import java.nio.file.{Files, Paths}
 import scala.collection.mutable.ListBuffer
 import scala.io.Source
+import scala.reflect.io.Directory
 
 trait Movies {
   def readMovies(): ListBuffer[String]
 }
 
 class SuperMovies(var resourceName: String, var fileHeader: String) extends Movies {
+  val outputDirectory = "output/"
   def readMovies(): ListBuffer[String] = {
     val sourceFile = Source.fromResource(resourceName)
     val inputFileData = ListBuffer[String]()
@@ -27,9 +30,12 @@ class SuperMovies(var resourceName: String, var fileHeader: String) extends Movi
     }
   }
 
-  def writeMovieDataBasedOnLogic(outputLocation: String, moviesList: ListBuffer[String], handleMoviesData: ListBuffer[String] => ListBuffer[String]): String = {
+  def writeMovieDataBasedOnLogic(outputFilename: String, moviesList: ListBuffer[String], handleMoviesData: ListBuffer[String] => ListBuffer[String]): String = {
     val writableMovieData = handleMoviesData(moviesList)
-    val printWriter = new PrintWriter(new File(outputLocation))
+
+    createOutputDirectory()
+    val outputPath = outputDirectory + outputFilename
+    val printWriter = new PrintWriter(new File(outputPath))
     try {
       printWriter.write(fileHeader + "\n")
       for (finalList <- writableMovieData) {
@@ -45,6 +51,11 @@ class SuperMovies(var resourceName: String, var fileHeader: String) extends Movi
       printWriter.close()
     }
 
+  }
+
+  def createOutputDirectory() : Unit = {
+    if( !Files.exists(Paths.get(outputDirectory)) )
+      Files.createDirectory(Paths.get(outputDirectory))
   }
 }
 
