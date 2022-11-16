@@ -8,9 +8,9 @@ trait Movies {
   def readMovies(): ListBuffer[String]
 }
 
-class SuperMovies(var filePath: String, var fileHeader: String) extends Movies {
+class SuperMovies(var resourceName: String, var fileHeader: String) extends Movies {
   def readMovies(): ListBuffer[String] = {
-    val sourceFile = Source.fromFile(filePath)
+    val sourceFile = Source.fromResource(resourceName)
     val inputFileData = ListBuffer[String]()
     try {
       for (fileData <- sourceFile.getLines().drop(1)) {
