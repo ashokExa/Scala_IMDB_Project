@@ -1,13 +1,14 @@
 package com.movies.imdbmovies
+
 import java.io.{File, FileNotFoundException, PrintWriter}
-import scala.io.Source
 import scala.collection.mutable.ListBuffer
+import scala.io.Source
 
 trait Movies {
-  def readMovies():ListBuffer[String]
+  def readMovies(): ListBuffer[String]
 }
 
-class SuperMovies(var filePath: String, var fileHeader:String) extends Movies {
+class SuperMovies(var filePath: String, var fileHeader: String) extends Movies {
   def readMovies(): ListBuffer[String] = {
     val sourceFile = Source.fromFile(filePath)
     val inputFileData = ListBuffer[String]()
@@ -26,7 +27,7 @@ class SuperMovies(var filePath: String, var fileHeader:String) extends Movies {
     }
   }
 
-  def writeMovieDataBasedOnLogic(outputLocation:String, moviesList:ListBuffer[String], handleMoviesData: ListBuffer[String] =>ListBuffer[String]): String ={
+  def writeMovieDataBasedOnLogic(outputLocation: String, moviesList: ListBuffer[String], handleMoviesData: ListBuffer[String] => ListBuffer[String]): String = {
     val writableMovieData = handleMoviesData(moviesList)
     val printWriter = new PrintWriter(new File(outputLocation))
     try {
