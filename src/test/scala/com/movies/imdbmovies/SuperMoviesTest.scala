@@ -3,13 +3,13 @@ package com.movies.imdbmovies
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funsuite.AnyFunSuite
 
-import java.io.FileNotFoundException
 import java.nio.file.Paths
+import scala.collection.mutable.ListBuffer
 import scala.reflect.io.Directory
 
 class SuperMoviesTest extends AnyFunSuite with BeforeAndAfter {
   var superMovies = new SuperMovies("IMDb_All_Genres_etf_clean1.csv", "Movie_Title,Year,Director,Actors,Rating,Runtime(Mins),Censor,Total_Gross,main_genre,side_genre")
-  var result = superMovies.readMovies()
+  var result: ListBuffer[String] = superMovies.readMovies()
 
   after {
     val outputDirectory = new Directory( Paths.get(superMovies.outputDirectory).toFile )
